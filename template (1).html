@@ -1,0 +1,622 @@
+html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>AutoRev — премиум реклама автомобилей</title>
+  <!-- Google Fonts и простые стили без внешних библиотек -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f6f9fe;
+      color: #111827;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* header / навигация */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 20px 0;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1e3c72, #2b4c8a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-weight: 500;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #1f2937;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #2563eb;
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      border: 1.5px solid #2563eb;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #2563eb;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-outline-light:hover {
+      background: #2563eb;
+      color: white;
+    }
+
+    /* Hero секция */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      padding: 48px 0 64px 0;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(to right, #0b2b44, #1e4a76);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+    }
+
+    .hero-desc {
+      font-size: 18px;
+      color: #4b5563;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 40px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 8px rgba(37,99,235,0.2);
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .hero-image {
+      background: linear-gradient(145deg, #e2eafc, #ffffff);
+      border-radius: 40px;
+      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.2);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .hero-image svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* секция фильтрации / популярные авто */
+    .section-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 48px 0 24px 0;
+      text-align: center;
+    }
+
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .filter-btn {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .filter-btn.active {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    .cars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    .car-card {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 12px 24px -12px rgba(0,0,0,0.1);
+      transition: transform 0.25s ease, box-shadow 0.25s;
+    }
+
+    .car-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 36px -12px rgba(0,0,0,0.2);
+    }
+
+    .car-img {
+      height: 200px;
+      background: #d9e6f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f0f4fa, #e2edf7);
+    }
+
+    .car-info {
+      padding: 20px 20px 24px;
+    }
+
+    .car-name {
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .car-price {
+      font-weight: 800;
+      color: #2563eb;
+    }
+
+    .car-details {
+      margin-top: 12px;
+      display: flex;
+      gap: 16px;
+      color: #4b5563;
+      font-size: 14px;
+      border-top: 1px solid #edf2f7;
+      padding-top: 12px;
+    }
+
+    .badge {
+      background: #eef2ff;
+      padding: 4px 10px;
+      border-radius: 40px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #2563eb;
+    }
+
+    /* Преимущества */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+      margin: 64px 0;
+      background: #ffffffd9;
+      border-radius: 48px;
+      padding: 48px 32px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+    }
+
+    .feature-item {
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+
+    .feature-title {
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    /* Отзывы */
+    .testimonials {
+      background: #ffffff;
+      border-radius: 40px;
+      padding: 48px 32px;
+      margin: 48px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      margin-top: 32px;
+    }
+
+    .testimonial-card {
+      background: #f8fafc;
+      padding: 24px;
+      border-radius: 28px;
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 16px;
+      color: #334155;
+    }
+
+    .client-name {
+      font-weight: 700;
+    }
+
+    /* CTA форма */
+    .cta-section {
+      background: linear-gradient(115deg, #0f2b3d, #1b3b5c);
+      border-radius: 48px;
+      padding: 56px 40px;
+      margin: 48px 0 64px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .cta-text h3 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .cta-input-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .cta-input-group input {
+      padding: 14px 20px;
+      border-radius: 60px;
+      border: none;
+      width: 260px;
+      font-size: 16px;
+    }
+
+    .cta-input-group button {
+      background: #facc15;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 60px;
+      font-weight: 700;
+      color: #0f172a;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .cta-input-group button:hover {
+      background: #eab308;
+      transform: scale(0.98);
+    }
+
+    footer {
+      border-top: 1px solid #e2e8f0;
+      padding: 40px 0 32px;
+      text-align: center;
+      color: #5b6e8c;
+    }
+
+    @media (max-width: 780px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-buttons {
+        justify-content: center;
+      }
+      .navbar {
+        flex-direction: column;
+      }
+      .section-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="navbar">
+      <div class="logo">⚡ AutoRev</div>
+      <div class="nav-links">
+        <a href="#">Главная</a>
+        <a href="#cars">Автомобили</a>
+        <a href="#why">Преимущества</a>
+        <a href="#reviews">Отзывы</a>
+      </div>
+      <button class="btn-outline-light" id="contactBtn">Связаться</button>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div>
+        <h1 class="hero-title">Реклама автомобилей <br> которая продаёт</h1>
+        <p class="hero-desc">Разместите свой автомобиль в премиум каталоге. Тысячи целевых покупателей по всей России. Быстрый отклик, честные цены.</p>
+        <div class="hero-buttons">
+          <button class="btn-primary" id="heroCtaBtn">Разместить объявление</button>
+          <button class="btn-secondary" id="exploreBtn">Изучить каталог</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <svg width="380" height="240" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="240" rx="24" fill="url(#gradCar)"/>
+          <path d="M70 150 L90 110 L310 110 L330 150 L340 170 L290 170 L270 150 L130 150 L110 170 L60 170 L70 150Z" fill="#2c3e66" stroke="#1e2f4b" stroke-width="2"/>
+          <circle cx="110" cy="180" r="16" fill="#1e1e2f" stroke="#ddd" stroke-width="3"/>
+          <circle cx="290" cy="180" r="16" fill="#1e1e2f" stroke="#ddd" stroke-width="3"/>
+          <rect x="150" y="125" width="100" height="35" rx="8" fill="#4f7eb3" opacity="0.8"/>
+          <path d="M180 140 L220 140" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <text x="185" y="115" fill="white" font-size="12" font-weight="bold">AUDI · BMW · TESLA</text>
+          <defs>
+            <linearGradient id="gradCar" x1="0" y1="0" x2="1" y2="1">
+              <stop stop-color="#1b3b5c" /><stop offset="1" stop-color="#296b9e" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Фильтр и сетка автомобилей -->
+    <div id="cars">
+      <div class="section-title">🔥 Популярные предложения</div>
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="sport">Спорткупе</button>
+        <button class="filter-btn" data-filter="suv">Внедорожники</button>
+        <button class="filter-btn" data-filter="electro">Электромобили</button>
+      </div>
+      <div class="cars-grid" id="carsGrid"></div>
+    </div>
+
+    <!-- Преимущества рекламы -->
+    <div id="why">
+      <div class="features">
+        <div class="feature-item"><div class="feature-icon">📸</div><div class="feature-title">Профессиональные фото</div><div>Поможем с фотографиями и 3D-туром</div></div>
+        <div class="feature-item"><div class="feature-icon">🚀</div><div class="feature-title">Топ-продвижение</div><div>Вывод в ТОП поиска за 24 часа</div></div>
+        <div class="feature-item"><div class="feature-icon">📊</div><div class="feature-title">Аналитика спроса</div><div>Ценовой советник и статистика просмотров</div></div>
+        <div class="feature-item"><div class="feature-icon">🔒</div><div class="feature-title">Безопасная сделка</div><div>Проверка истории и юридическая поддержка</div></div>
+      </div>
+    </div>
+
+    <!-- Отзывы клиентов -->
+    <div id="reviews">
+      <div class="testimonials">
+        <div class="section-title" style="margin-top:0;">Что говорят клиенты</div>
+        <div class="testimonial-grid">
+          <div class="testimonial-card"><div class="testimonial-text">“Продал Mercedes за 3 дня благодаря мощной рекламе. Получил 47 откликов! Очень доволен.”</div><div class="client-name">— Артём, Москва</div></div>
+          <div class="testimonial-card"><div class="testimonial-text">“Сервис на высшем уровне, автосалон рекомендует AutoRev. Продажи выросли на 35%.”</div><div class="client-name">— Карен, дилерский центр</div></div>
+          <div class="testimonial-card"><div class="testimonial-text">“Разместил Tesla Model 3, через неделю продал по лучшей цене. Спасибо модераторам.”</div><div class="client-name">— Екатерина, СПб</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA форма для консультации -->
+    <div class="cta-section">
+      <div class="cta-text"><h3>Хотите продать авто быстро?</h3><div>Оставьте заявку — получите бесплатный аудит объявления</div></div>
+      <div class="cta-input-group">
+        <input type="text" placeholder="Ваше имя" id="userName">
+        <input type="tel" placeholder="Телефон" id="userPhone">
+        <button id="submitLead">Отправить</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025 AutoRev — премиум рекламная платформа для автомобилей. Все права защищены.</p>
+      <p style="margin-top: 12px; font-size: 14px;">Размещение авто — только проверенные дилеры и частные лица</p>
+    </footer>
+  </div>
+
+  <script>
+    // ---- БАЗА ДАННЫХ АВТОМОБИЛЕЙ (рекламная подборка)
+    const carsData = [
+      { id: 1, name: "Porsche 911 Turbo S", price: "₽ 14 200 000", year: "2023", engine: "3.8L biturbo", type: "sport", imageLabel: "911 Turbo", mileage: "8 400 км" },
+      { id: 2, name: "BMW X7 M60i", price: "₽ 11 990 000", year: "2024", engine: "4.4L V8", type: "suv", imageLabel: "X7", mileage: "2 100 км" },
+      { id: 3, name: "Tesla Model S Plaid", price: "₽ 9 450 000", year: "2023", engine: "Электрический", type: "electro", imageLabel: "Model S", mileage: "5 200 км" },
+      { id: 4, name: "Audi RS6 Avant", price: "₽ 12 700 000", year: "2023", engine: "4.0 V8", type: "sport", imageLabel: "RS6", mileage: "3 500 км" },
+      { id: 5, name: "Mercedes G-Class AMG", price: "₽ 23 500 000", year: "2024", engine: "4.0 V8", type: "suv", imageLabel: "G63", mileage: "1 200 км" },
+      { id: 6, name: "Hyundai Ioniq 6", price: "₽ 4 890 000", year: "2024", engine: "Электрический", type: "electro", imageLabel: "Ioniq6", mileage: "0 км (новый)" },
+      { id: 7, name: "Ferrari Roma", price: "₽ 21 300 000", year: "2022", engine: "3.9 V8", type: "sport", imageLabel: "Roma", mileage: "6 700 км" },
+      { id: 8, name: "Land Rover Defender", price: "₽ 9 990 000", year: "2023", engine: "3.0L", type: "suv", imageLabel: "Defender", mileage: "9 100 км" }
+    ];
+
+    let currentFilter = "all";
+
+    function renderCars() {
+      const filtered = currentFilter === "all" ? carsData : carsData.filter(car => car.type === currentFilter);
+      const grid = document.getElementById("carsGrid");
+      if (!grid) return;
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px;">🚗 Нет авто по этому фильтру, но скоро появятся!</div>`;
+        return;
+      }
+      grid.innerHTML = filtered.map(car => `
+        <div class="car-card">
+          <div class="car-img">
+            <svg width="160" height="100" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="100" rx="18" fill="#cbddec" />
+              <path d="M30 65 L45 45 L155 45 L170 65 L175 78 L145 78 L130 65 L70 65 L55 78 L25 78 L30 65Z" fill="#2c4766" />
+              <circle cx="52" cy="82" r="9" fill="#1a2c3f" stroke="#cbddec" stroke-width="2"/>
+              <circle cx="148" cy="82" r="9" fill="#1a2c3f" stroke="#cbddec" stroke-width="2"/>
+              <text x="75" y="35" font-size="10" fill="#0f2b3d" font-weight="bold">${car.imageLabel}</text>
+            </svg>
+          </div>
+          <div class="car-info">
+            <div class="car-name"><span>${car.name}</span><span class="car-price">${car.price}</span></div>
+            <div class="car-details">
+              <span>📅 ${car.year}</span>
+              <span>⚙️ ${car.engine.substring(0,14)}</span>
+              <span>📌 ${car.mileage}</span>
+            </div>
+            <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+              <span class="badge">${car.type === 'sport' ? 'Спорт' : car.type === 'suv' ? 'Внедорожник' : 'Электро'}</span>
+              <button class="btn-outline-light" style="padding: 4px 16px; font-size:13px;" data-car='${JSON.stringify(car)}'>Подробнее →</button>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      // привязываем обработчики к кнопкам "Подробнее" после рендера
+      document.querySelectorAll("[data-car]").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const carDataRaw = btn.getAttribute("data-car");
+          try {
+            const car = JSON.parse(carDataRaw);
+            alert(`🚗 ${car.name}\n💰 Цена: ${car.price}\n📅 Год: ${car.year}\n🔧 Двигатель: ${car.engine}\n🏁 Пробег: ${car.mileage}\n⭐ Свяжитесь для тест-драйва!`);
+          } catch (e) {}
+        });
+      });
+    }
+
+    // фильтры активность + рендер
+    function initFilters() {
+      const btns = document.querySelectorAll(".filter-btn");
+      btns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          btns.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentFilter = btn.getAttribute("data-filter");
+          renderCars();
+        });
+      });
+    }
+
+    // уведомления для форм
+    function showMessage(msg, isError = false) {
+      const style = isError ? 'red' : '#2e7d32';
+      const toast = document.createElement('div');
+      toast.innerText = msg;
+      toast.style.position = 'fixed';
+      toast.style.bottom = '24px';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%)';
+      toast.style.backgroundColor = style;
+      toast.style.color = 'white';
+      toast.style.padding = '12px 24px';
+      toast.style.borderRadius = '60px';
+      toast.style.fontWeight = '500';
+      toast.style.zIndex = '9999';
+      toast.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Обработка контактов и CTA
+    document.getElementById("heroCtaBtn")?.addEventListener("click", () => {
+      window.scrollTo({ top: document.querySelector(".cta-section")?.offsetTop - 70, behavior: "smooth" });
+      showMessage("📢 Заполните форму ниже для размещения объявления", false);
+    });
+    document.getElementById("exploreBtn")?.addEventListener("click", () => {
+      const carsSection = document.getElementById("cars");
+      if(carsSection) carsSection.scrollIntoView({ behavior: "smooth" });
+    });
+    document.getElementById("contactBtn")?.addEventListener("click", () => {
+      showMessage("📞 Наш менеджер: +7 (495) 555-23-23 или напишите в форму", false);
+    });
+
+    const submitLeadBtn = document.getElementById("submitLead");
+    if(submitLeadBtn) {
+      submitLeadBtn.addEventListener("click", () => {
+        const nameInput = document.getElementById("userName");
+        const phoneInput = document.getElementById("userPhone");
+        const name = nameInput?.value.trim();
+        const phone = phoneInput?.value.trim();
+        if(!name || !phone) {
+          showMessage("❌ Заполните имя и телефон для связи", true);
+          return;
+        }
+        if(phone.length < 10) {
+          showMessage("⚠️ Введите корректный номер телефона", true);
+          return;
+        }
+        showMessage(`✅ Спасибо, ${name}! Менеджер свяжется с вами в течение 15 минут.`, false);
+        nameInput.value = "";
+        phoneInput.value = "";
+        // Имитация отправки лида
+        console.log("Лид: ", {name, phone});
+      });
+    }
+
+    // инициализация: рендер и обработчики
+    renderCars();
+    initFilters();
+
+    // простая анимация при загрузке
+    window.addEventListener("load", () => {
+      showMessage("🔥 AutoRev — лучшие предложения с рекламой премиум авто", false);
+    });
+  </script>
+</body>
+</html>
